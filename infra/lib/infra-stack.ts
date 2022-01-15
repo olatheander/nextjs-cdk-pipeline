@@ -65,28 +65,7 @@ export class InfraStack extends CDK.Stack {
             environment: {
               buildImage: CodeBuild.LinuxBuildImage.STANDARD_5_0
             },
-            buildSpec: CodeBuild.BuildSpec.fromObject({
-              version: '0.2',
-
-              phases: {
-                install: {
-                  "runtime-versions": {
-                    nodejs: '14.x'
-                  },
-                  commands: ['yarn install']
-                },
-                build: {
-                  commands: ['yarn build']
-                }
-              },
-              artifacts: {
-                "base-directory": './build',
-                files: ['**/*']
-              },
-              cache: {
-                paths: ['./node_modules/**/*']
-              }
-            }),
+            buildSpec: CodeBuild.BuildSpec.fromSourceFilename('./buildspec.yaml'),
           }),
           input: outputSources,
           outputs: [outputWebsite],
